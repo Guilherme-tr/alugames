@@ -9,6 +9,4 @@ data class Jogo(val tittulo:String, val capa:String) {
         return "Meu jogo: '$tittulo', capa='$capa', descricao='$descricao')"
     }
 
-
-
 }
