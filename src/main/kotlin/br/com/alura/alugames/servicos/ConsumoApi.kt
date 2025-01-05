@@ -2,10 +2,13 @@ package br.com.alura.alugames.servicos
 
 import br.com.alura.alugames.modelo.Gamer
 import br.com.alura.alugames.modelo.InfoGamerJson
+import br.com.alura.alugames.modelo.InfoJogoJson
 import br.com.alura.alugames.util.criaGamer
+import br.com.alura.alugames.util.criaJogo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.example.br.com.alura.alugames.modelo.InfoJogo
+import org.example.br.com.alura.alugames.modelo.Jogo
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -22,7 +25,7 @@ class ConsumoApi {
         return response.body()
     }
 
-    fun buscaJogo(id:String):InfoJogo{
+    fun buscaJogoById(id:String):InfoJogo{
 
         val endereco = "https://www.cheapshark.com/api/1.0/games?id=$id"
 
@@ -36,6 +39,26 @@ class ConsumoApi {
 
         return meuInfoJogo
     }
+
+    fun buscaJogosJson():List<Jogo>{
+
+        val endereco = "https://raw.githubusercontent.com/jeniblodev/arquivosJson/main/jogos.json"
+        val json = consomeDados(endereco)
+
+
+        val gson = Gson()
+
+        val meuJogoTipo = object : TypeToken<List<InfoJogoJson>>() {}.type
+
+        val listaJogo: List<InfoJogoJson> = gson.fromJson(json, meuJogoTipo)
+
+        val listaJogoConvertida = listaJogo.map {
+            infoJogoJson -> infoJogoJson.criaJogo()
+        }
+
+        return listaJogoConvertida
+    }
+
 
     fun buscaGamers():List<Gamer>{
 

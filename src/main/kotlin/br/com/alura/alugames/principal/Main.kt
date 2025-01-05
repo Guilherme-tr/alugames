@@ -20,14 +20,15 @@ fun main() {
 
         val buscaApi = ConsumoApi()
 
-        val informacaoJogo = buscaApi.buscaJogo(busca)
+        val informacaoJogo = buscaApi.buscaJogoById(busca)
 
         var meuJogo: Jogo? = null
 
         val resultado = runCatching {
             meuJogo = Jogo(
                 informacaoJogo.info.title,
-                informacaoJogo.info.thumb)
+                informacaoJogo.info.thumb,
+            )
 
             println(meuJogo)
         }
